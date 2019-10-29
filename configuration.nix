@@ -3,10 +3,12 @@
 {
   imports = [ 
     <nixpkgs/nixos/modules/installer/virtualbox-demo.nix>
+    <nixpkgs/nixos/modules/profiles/hardened.nix>
     ./users/jamie.nix
     ./modules/shell.nix
   ];
 
+  nix.useSandbox = false;
 
   # Let demo build as a trusted user.
   nix.trustedUsers = [ "demo" ];
