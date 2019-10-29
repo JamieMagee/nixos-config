@@ -4,6 +4,7 @@
   imports = [ 
     <nixpkgs/nixos/modules/installer/virtualbox-demo.nix>
     ./users/jamie.nix
+    ./modules/shell.nix
   ];
 
 
