@@ -1,0 +1,39 @@
+{
+    "NUR": {
+        "branch": "master",
+        "description": "Nix User Repository: User contributed nix packages [maintainer=@Mic92]",
+        "homepage": "",
+        "owner": "nix-community",
+        "repo": "NUR",
+        "rev": "150be1280b8f99c072eb7f29a88be3a20e68af3b",
+        "sha256": "1s7w4fipg2x8cfk3jfridvvcrhnzpszh3vwx62xnyhbicwiwpidd",
+        "type": "tarball",
+        "url": "https://github.com/nix-community/NUR/archive/150be1280b8f99c072eb7f29a88be3a20e68af3b.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "home-manager": {
+        "branch": "master",
+        "description": "Manage a user environment using Nix",
+        "homepage": "",
+        "owner": "rycee",
+        "repo": "home-manager",
+        "rev": "6cc4fd6ede4909226cb81d3475834251ed1b7210",
+        "sha256": "123wb940yw8k0qr3gmhdxi4ilzp9d2a7jsb6br6ybz7082dknlx8",
+        "type": "tarball",
+        "url": "https://github.com/rycee/home-manager/archive/6cc4fd6ede4909226cb81d3475834251ed1b7210.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs": {
+        "branch": "nixos-unstable",
+        "builtin": false,
+        "description": "The nix packages collection stable",
+        "homepage": "https://github.com/nixos/nixpkgs",
+        "owner": "nixos",
+        "repo": "nixpkgs-channels",
+        "rev": "a21c2fa3ea2b88e698db6fc151d9c7259ae14d96",
+        "sha256": "1z3kxlbz6bqx1dlagcazg04vhk67r8byihzf959c3m0laf2a1w7y",
+        "type": "tarball",
+        "url": "https://github.com/nixos/nixpkgs-channels/archive/a21c2fa3ea2b88e698db6fc151d9c7259ae14d96.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    }
+}
