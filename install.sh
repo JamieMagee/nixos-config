@@ -67,8 +67,8 @@ zfs create -o mountpoint=legacy zpool/home
 mount -t zfs zpool/root /mnt
 
 mkdir /mnt/boot
-mount $DISK-part3 /mnt/boot
+mount $DISK-part1 /mnt/boot
 mkdir /mnt/home
-mount -t zfs \pool/home /mnt/home
+mount -t zfs zpool/home /mnt/home
 
 nixos-generate-config --root /mnt
