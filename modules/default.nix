@@ -5,5 +5,6 @@ device:
     ./users.nix
     ./network.nix
     ./hardware.nix
+    ./ssh.nix
   ];
 }
