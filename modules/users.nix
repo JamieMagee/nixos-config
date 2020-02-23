@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }: {
   security.apparmor.enable = true;
   programs.firejail.enable = true;
-  users.mutableUsers = false;
+  # users.mutableUsers = false;
   users.users.jamie = {
     isNormalUser = true;
     extraGroups = [
