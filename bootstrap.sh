@@ -38,7 +38,7 @@ sleep 1 # udev race condition
 #----------------------------------------------------------------------
 
 # Create zpool
-zpool create -O mountpoint=none -R /mnt zpool "$DISK-part2"
+zpool create -f -O mountpoint=none -R /mnt zpool "$DISK-part2"
 
 echo "Creating and mounting datasets in /mnt..."
 
