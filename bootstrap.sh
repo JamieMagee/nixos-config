@@ -77,6 +77,13 @@ cd nixos-configuration
 
 mv /mnt/etc/nixos/hardware-configuration.nix "hardware-configuration/$(hostname).nix"
 
+mkdir /home/jamie
+mount --rbind /mnt/home/jamie /home/jamie
+mount --rbind /mnt/etc/nixos /etc/nixos
+umount -l /nix/.rw-store
+cp /nix/ /mnt -r
+mount --rbind /mnt/nix /nix
+
 ./build
 nixos-install --system ./result
 cd /mnt/home/jamie
