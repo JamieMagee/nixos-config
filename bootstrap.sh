@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#!/usr/bin/env nix-shell
+#!nix-shell -i bash -p git
 
 #----------------------------------------------------------------------
 # NixOS Installation Script
@@ -24,9 +25,9 @@ MOUNTOPTS=compression=lz4,xattr=sa,acltype=posixacl
 # Create Partitions
 #----------------------------------------------------------------------
 
-sgdisk --zap-all "$DISK"
+sudo sgdisk --zap-all "$DISK"
 
-sgdisk --clear \
+sudo sgdisk --clear \
   --new=1:0:+512MiB --typecode=1:ef00 --change-name=1:EFI \
   --new=2:0:0 --typecode=2:bf00 --change-name=2:zroot \
   "$DISK"
@@ -60,9 +61,10 @@ mkdir /mnt/nix
 mount -t zfs zpool/NIX/nix /mnt/nix
 
 # /home dataset
-zfs create -o mountpoint=legacy -o canmount=on zroot/HOME/home
+zfs create -o mountpoint=none -o canmount=off zpool/HOME
+zfs create -o mountpoint=legacy -o canmount=on zpool/HOME/home
 mkdir /mnt/home
-mount -t zfs zroot/HOME/home /mnt/home
+mount -t zfs zpool/HOME/home /mnt/home
 
 nixos-generate-config --root /mnt
 
