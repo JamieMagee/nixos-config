@@ -7,6 +7,8 @@
 
 set -eu
 
+export IN_NIX_SHELL=
+
 #----------------------------------------------------------------------
 # DRIVE & SCRIPT VALUES
 #----------------------------------------------------------------------
@@ -77,14 +79,25 @@ cd nixos-configuration
 
 mv /mnt/etc/nixos/hardware-configuration.nix "hardware-configuration/$(hostname).nix"
 
-mkdir /home/jamie
+mkdir -p /home/jamie
 mount --rbind /mnt/home/jamie /home/jamie
 mount --rbind /mnt/etc/nixos /etc/nixos
-umount -l /nix/.rw-store
-cp /nix/ /mnt -r
+
+export NIX_PATH=
+
+nixpkgs=$(nix eval --raw '(import ./nix/sources.nix).nixpkgs')
+nix-store --repair-path $nixpkgs # Evaluating doesn't actually add it to store
+rm /tmp/nixpkgs -rf
+cp -r $nixpkgs /tmp/nixpkgs # Because we lose everything we added to store after we unmount it
+
+export NIX_PATH=nixpkgs=/tmp/nixpkgs:nixos-config=/etc/nixos/configuration.nix
+
+nix copy --all --to /mnt --no-require-sigs
+
+umount -l /nix/.rw-store || echo "RW-store is not mounted."
 mount --rbind /mnt/nix /nix
 
-./build
+nix-build /tmp/nixpkgs/nixos -A system
 nixos-install --system ./result
 cd /mnt/home/jamie
 chown -R 1000:1000 .
