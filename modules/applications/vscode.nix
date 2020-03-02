@@ -3,7 +3,7 @@
   home-manager.users.jamie.programs.vscode = {
     enable = true;
     extensions = [
-      pkgs.vscode-extensions.DavidAnson.vscode-markdownlint
+      # pkgs.vscode-extensions.DavidAnson.vscode-markdownlint
       # Equinusocio.vsc-material-theme
       # Equinusocio.vsc-material-theme-icons
       # Orta.vscode-jest
