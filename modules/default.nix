@@ -2,7 +2,6 @@ device:
 { pkgs, lib, ... }: {
   imports = [
     ./applications/packages.nix
-    ./applications/virtualbox.nix
     ./applications/vscode.nix
     ./workspace/fish.nix
     ./workspace/git.nix
