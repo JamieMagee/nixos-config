@@ -35,5 +35,29 @@
         "type": "tarball",
         "url": "https://github.com/nixos/nixpkgs-channels/archive/82b54d490663b6d87b7b34b9cfc0985df8b49c7d.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "plugin-bang-bang": {
+        "branch": "master",
+        "description": "Bash style history substitution for Oh My Fish",
+        "homepage": null,
+        "owner": "oh-my-fish",
+        "repo": "plugin-bang-bang",
+        "rev": "d45ae216969fa5c3eac0b6248119e8a1da56fe89",
+        "sha256": "0jpcs8fpw9a69ai6mwhgikw77j03fhnixcl21yx1b5p65333pddc",
+        "type": "tarball",
+        "url": "https://github.com/oh-my-fish/plugin-bang-bang/archive/d45ae216969fa5c3eac0b6248119e8a1da56fe89.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "theme-bobthefish": {
+        "branch": "master",
+        "description": "A Powerline-style, Git-aware fish theme optimized for awesome.",
+        "homepage": "",
+        "owner": "oh-my-fish",
+        "repo": "theme-bobthefish",
+        "rev": "dbe3009b02330c3220c3647e47d0e95f7d1ab7ff",
+        "sha256": "00p4sydd16gzy6ggif1821w2xk3iv34512byk3s37lbyd27mfqap",
+        "type": "tarball",
+        "url": "https://github.com/oh-my-fish/theme-bobthefish/archive/dbe3009b02330c3220c3647e47d0e95f7d1ab7ff.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }

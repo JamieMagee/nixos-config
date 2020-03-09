@@ -5,13 +5,12 @@
     moreutils
     dateutils
     bc
-    python38Packages.glances
+    glances
     nnn
     lsof
     units
     lastpass-cli
     git
     niv
-    nixfmt
   ];
 }
