@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 let
-  sources = import ../../nix/sources.nix;
+  sources = import ../../../nix/sources.nix;
 in {
 
   environment.sessionVariables.SHELL = "fish";
@@ -18,8 +18,11 @@ in {
         };
       };
       in map sourcesFishPlugin [
-        "theme-bobthefish"
+        "fzf"
+        "pisces"
         "plugin-bang-bang"
+        "theme-bobthefish"
+        "z"
       ];
   };
 }

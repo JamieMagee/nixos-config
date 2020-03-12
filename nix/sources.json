@@ -5,10 +5,22 @@
         "homepage": "",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "5ddadcbd54cbddebe951f4d1c1c832db34ded774",
-        "sha256": "19vzkrsxk2cmj446ry0g2s1123y4jpvkb69348vq3d2h8gc7m0dp",
+        "rev": "e728b569c437fa34d274b8e71db704c4d44d01b8",
+        "sha256": "1hdh5i4ypicd27dkxhgar38slkzkm47kk1gqyrrh6dzsxbz3pc6r",
         "type": "tarball",
-        "url": "https://github.com/nix-community/NUR/archive/5ddadcbd54cbddebe951f4d1c1c832db34ded774.tar.gz",
+        "url": "https://github.com/nix-community/NUR/archive/e728b569c437fa34d274b8e71db704c4d44d01b8.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "fzf": {
+        "branch": "master",
+        "description": "Ef-🐟-ient fish keybindings for fzf",
+        "homepage": "",
+        "owner": "jethrokuan",
+        "repo": "fzf",
+        "rev": "7f4c0b6d9545126a1bdf30279e6b1ab6ffedc299",
+        "sha256": "1k5b0nva0mbqc9830qhbcwxsi8d9b2p4ws1fq0bw9nkf2ripyp4p",
+        "type": "tarball",
+        "url": "https://github.com/jethrokuan/fzf/archive/7f4c0b6d9545126a1bdf30279e6b1ab6ffedc299.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "home-manager": {
@@ -36,6 +48,18 @@
         "url": "https://github.com/nixos/nixpkgs-channels/archive/82b54d490663b6d87b7b34b9cfc0985df8b49c7d.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "pisces": {
+        "branch": "master",
+        "description": "♓️Fish shell plugin that helps you to work with paired symbols in the command line",
+        "homepage": "",
+        "owner": "laughedelic",
+        "repo": "pisces",
+        "rev": "8d26b0852c2d4ee9983474ec157fef7d878bea1d",
+        "sha256": "0kzxyyh9jhv0r4baja787n5qqzwawh4yv1i0ir6slgy1dgllnf77",
+        "type": "tarball",
+        "url": "https://github.com/laughedelic/pisces/archive/8d26b0852c2d4ee9983474ec157fef7d878bea1d.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "plugin-bang-bang": {
         "branch": "master",
         "description": "Bash style history substitution for Oh My Fish",
@@ -58,6 +82,18 @@
         "sha256": "00p4sydd16gzy6ggif1821w2xk3iv34512byk3s37lbyd27mfqap",
         "type": "tarball",
         "url": "https://github.com/oh-my-fish/theme-bobthefish/archive/dbe3009b02330c3220c3647e47d0e95f7d1ab7ff.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "z": {
+        "branch": "master",
+        "description": "Pure-fish z directory jumping",
+        "homepage": "",
+        "owner": "jethrokuan",
+        "repo": "z",
+        "rev": "ddeb28a7b6a1f0ec6dae40c636e5ca4908ad160a",
+        "sha256": "0c5i7sdrsp0q3vbziqzdyqn4fmp235ax4mn4zslrswvn8g3fvdyh",
+        "type": "tarball",
+        "url": "https://github.com/jethrokuan/z/archive/ddeb28a7b6a1f0ec6dae40c636e5ca4908ad160a.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }
