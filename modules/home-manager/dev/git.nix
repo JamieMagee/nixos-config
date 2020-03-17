@@ -56,6 +56,17 @@
       #pr  = "!f() { git fetch -fu ${2:-$(git remote |grep ^upstream || echo origin)} refs/pull/$1/head:pr/$1 && git checkout pr/$1; }; f";
       #pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done";
     };
+    ignores = [
+      "*~"
+      # temporary files which can be created if a process still has a handle open of a deleted file
+      ".fuse_hidden*"
+      # KDE directory preferences
+      ".directory"
+      # Linux trash folder which might appear on any partition or disk
+      ".Trash-*"
+      # .nfs files are created when an open file is removed but is still being accessed
+      ".nfs*"
+    ];
     extraConfig = {
       core = {
         # Avoid using # symbol for comments -- instead use ;
@@ -109,6 +120,49 @@
         changed = "green";
         untracked = "cyan";
       };
+      help = {
+        # Automatically correct and execute mistyped commands
+        autocorrect = 1;
+      };
+      url = {
+        "git@github.com:" = {
+          insteadof = "gh:";
+          pushInsteadOf = [
+            "github.com:"
+            "git://github.com/"
+          ];
+        };
+        "git://github.com/" = {
+          insteadOf = "github:";
+        };
+        "git@gist.github.com" = {
+          insteadOf = "gst:";
+          pushInsteadOf = [
+            "gist:"
+            "git://gist.github.com/"
+          ];
+        };
+        "git://gist.github.com/" = {
+          insteadOf = "gist:";
+        };
+      };
     };
+    includes = [
+      {
+      condition = "gitdir:~/work/";
+      path = "~/.gitconfig.work";
+      contents = {
+        user = {
+          email = "jamagee@microsoft.com";
+        };
+        url = {
+          "git@ssh.dev.azure.com:v3/powerbi/Customer360/" = {
+            insteadof = "az:";
+          };
+        };
+      };
+    }
+    ];
   };
+
 }

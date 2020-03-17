@@ -12,5 +12,7 @@
     lastpass-cli
     git
     niv
+    nixfmt
+    fd
   ];
 }

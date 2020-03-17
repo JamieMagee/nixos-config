@@ -6,8 +6,15 @@ in { pkgs, config, lib, ... }: {
     (super: pkgs: import ../../pkgs { inherit pkgs; })
   ];
 
-  nixpkgs.pkgs = import imports.nixpkgs { config.allowUnfree = true; }
-    // config.nixpkgs.config;
+  nixpkgs.pkgs = import imports.nixpkgs {
+    config = {
+      allowUnfree = true;
+    };
+   } // config.nixpkgs.config;
+
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
 
   home-manager.users.jamie.nixpkgs.config = {
     allowUnfree = true;

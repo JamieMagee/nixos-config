@@ -10,11 +10,3 @@ nix-store --realise "$nixpkgs"
 export NIX_PATH=nixpkgs=$nixpkgs:nixos-config=/etc/nixos/configuration.nix
 
 nix-build "$nixpkgs/nixos" -A system "$@"
-
-# git add .
-# # The quickest way to commit
-# git commit -t <(
-#     echo -n "Update "
-#     echo -n "$(git diff HEAD --name-only)" | tr "\n" ", "
-# ) --no-edit --no-gpg-sign
-# git tag latestBuild --force

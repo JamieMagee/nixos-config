@@ -2,7 +2,7 @@
 
   home-manager.users.jamie.programs.vscode = {
     enable = true;
-    extensions =  pkgs.vscode-extensions;
+    # extensions =  pkgs.vscode-extensions;
   };
 
 }
