@@ -3,9 +3,7 @@
   networking = {
     hostId = "abcdef12";
     networkmanager.enable = true;
-    firewall = {
-      enable = true;
-    };
+    firewall = { enable = true; };
   };
 
 }

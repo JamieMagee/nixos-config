@@ -6,10 +6,7 @@ with types; {
     deviceSpecific = mkOption { type = attrs; };
   };
   config = {
-    deviceSpecific = let
-      device = config.device;
-    in rec {
-      isLaptop = (!isNull (builtins.match ".*laptop" device));
-    };
+    deviceSpecific = let device = config.device;
+    in rec { isLaptop = (!isNull (builtins.match ".*laptop" device)); };
   };
 }

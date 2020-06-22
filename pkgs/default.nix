@@ -1,3 +1,1 @@
-{ pkgs }: {
-  vscode-extensions = pkgs.callPackage ./vscode-extensions { };
-}
+{ pkgs }: { vscode-extensions = pkgs.callPackage ./vscode-extensions { }; }

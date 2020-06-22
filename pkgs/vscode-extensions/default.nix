@@ -2,6 +2,5 @@
 
 with lib;
 
-(map (ext:
-  (vscode-utils.buildVscodeMarketplaceExtension {mktplcRef = ext;})
-) (import ./extensions.nix))
+(map (ext: (vscode-utils.buildVscodeMarketplaceExtension { mktplcRef = ext; }))
+  (import ./extensions.nix))

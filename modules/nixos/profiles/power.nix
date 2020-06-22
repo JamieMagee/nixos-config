@@ -1,7 +1,5 @@
 { pkgs, config, lib, ... }: {
 
-  services.tlp = {
-    enable = config.deviceSpecific.isLaptop;
-  };
+  services.tlp = { enable = config.deviceSpecific.isLaptop; };
 
 }

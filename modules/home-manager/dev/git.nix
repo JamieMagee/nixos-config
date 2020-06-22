@@ -24,13 +24,15 @@
       cob = "checkout -b";
 
       # Switch to a branch by task ID
-      sco = "\"!f() { git branch -a | grep remotes | grep \"$1\" | xargs git checkout; }; f\"";
+      sco = ''
+        "!f() { git branch -a | grep remotes | grep "$1" | xargs git checkout; }; f"'';
 
       # Edit the global `.gitconfig` file
       ec = "config --global -e";
 
       # Pull the latest changes from master, and rebase local changes on top of them
-      up = "!git pull --rebase --prune $@ && git submodule update --init --recursive";
+      up =
+        "!git pull --rebase --prune $@ && git submodule update --init --recursive";
 
       cm = "!git add -A && git commit -m";
       bl = "branch -l";
@@ -39,18 +41,23 @@
       amend = "commit -a --amend";
 
       # Pretty print the git log
-      lg = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
+      lg =
+        "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
 
       # Rebase the current branch onto the remote master
       rb = "!git fetch && git rebase origin/master";
 
       # Track upstream with the same name
-      su = "!git branch --set-upstream-to=origin/\"$(git symbolic-ref --short HEAD)\"";
+      su = ''
+        !git branch --set-upstream-to=origin/"$(git symbolic-ref --short HEAD)"'';
 
       # Manage git user identities
-      work = "\"!f() { git config --local user.email \"jamagee@microsoft.com\"; }; f\"";
-      personal = "\"!f() { git config --local user.email \"jamie.magee@gmail.com\"; }; f\"";
-      whoami = "\"!f() { echo \"$(git config --get user.name)\" <\"$(git config --get user.email)\">; }; f\"";
+      work = ''
+        "!f() { git config --local user.email "jamagee@microsoft.com"; }; f"'';
+      personal = ''
+        "!f() { git config --local user.email "jamie.magee@gmail.com"; }; f"'';
+      whoami = ''
+        "!f() { echo "$(git config --get user.name)" <"$(git config --get user.email)">; }; f"'';
 
       # Checkout PRs
       #pr  = "!f() { git fetch -fu ${2:-$(git remote |grep ^upstream || echo origin)} refs/pull/$1/head:pr/$1 && git checkout pr/$1; }; f";
@@ -70,7 +77,7 @@
     extraConfig = {
       core = {
         # Avoid using # symbol for comments -- instead use ;
-        commentchar = "\";\"";
+        commentchar = ''";"'';
         safecrlf = false;
         autocrlf = "input";
 
@@ -127,42 +134,28 @@
       url = {
         "git@github.com:" = {
           insteadof = "gh:";
-          pushInsteadOf = [
-            "github.com:"
-            "git://github.com/"
-          ];
+          pushInsteadOf = [ "github.com:" "git://github.com/" ];
         };
-        "git://github.com/" = {
-          insteadOf = "github:";
-        };
+        "git://github.com/" = { insteadOf = "github:"; };
         "git@gist.github.com" = {
           insteadOf = "gst:";
-          pushInsteadOf = [
-            "gist:"
-            "git://gist.github.com/"
-          ];
+          pushInsteadOf = [ "gist:" "git://gist.github.com/" ];
         };
-        "git://gist.github.com/" = {
-          insteadOf = "gist:";
-        };
+        "git://gist.github.com/" = { insteadOf = "gist:"; };
       };
     };
-    includes = [
-      {
+    includes = [{
       condition = "gitdir:~/work/";
       path = "~/.gitconfig.work";
       contents = {
-        user = {
-          email = "jamagee@microsoft.com";
-        };
+        user = { email = "jamagee@microsoft.com"; };
         url = {
           "git@ssh.dev.azure.com:v3/powerbi/Customer360/" = {
             insteadof = "az:";
           };
         };
       };
-    }
-    ];
+    }];
   };
 
 }

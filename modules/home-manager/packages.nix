@@ -1,6 +1,5 @@
 { pkgs, config, lib, ... }: {
-  home-manager.users.jamie.home.packages = with pkgs;
-  [
+  home-manager.users.jamie.home.packages = with pkgs; [
     coreutils
     moreutils
     dateutils

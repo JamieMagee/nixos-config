@@ -1,5 +1,1 @@
-{ pkgs, lib, config, ... }: {
-  programs.sway = {
-    enable = true;
-  };
-}
+{ pkgs, lib, config, ... }: { programs.sway = { enable = true; }; }

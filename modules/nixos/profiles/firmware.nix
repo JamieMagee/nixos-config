@@ -1,9 +1,9 @@
 { pkgs, config, lib, ... }: {
 
-    services.fwupd.enable = true;
+  services.fwupd.enable = true;
 
-    hardware.enableRedistributableFirmware = true;
+  hardware.enableRedistributableFirmware = true;
 
-    hardware.enableAllFirmware = true;
+  hardware.enableAllFirmware = true;
 
 }
