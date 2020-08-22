@@ -3,12 +3,12 @@
 
   inputs =
     {
-      master.url = "nixpkgs/master";
-      nixos.url = "nixpkgs/release-20.03";
+      unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+      nixos.url = "github:NixOS/nixpkgs/nixos-unstable";
       home.url = "github:rycee/home-manager/bqv-flakes";
     };
 
-  outputs = inputs@{ self, home, nixos, master }:
+  outputs = inputs@{ self, home, nixos, unstable }:
     let
       inherit (builtins) attrNames attrValues readDir;
       inherit (nixos) lib;
@@ -28,7 +28,7 @@
 
       pkgset = {
         osPkgs = pkgImport nixos;
-        pkgs = pkgImport master;
+        pkgs = pkgImport unstable;
       };
 
     in

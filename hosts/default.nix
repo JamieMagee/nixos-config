@@ -1,7 +1,7 @@
 { home
 , lib
 , nixos
-, master
+, unstable
 , pkgset
 , self
 , system
@@ -27,7 +27,7 @@ let
             networking.hostName = hostName;
             nix.nixPath = let path = toString ../.; in
               [
-                "nixpkgs=${master}"
+                "nixpkgs=${unstable}"
                 "nixos=${nixos}"
                 "nixos-config=${path}/configuration.nix"
                 "nixpkgs-overlays=${path}/overlays"
@@ -38,7 +38,7 @@ let
             nix.registry = {
               nixos.flake = nixos;
               nixflk.flake = self;
-              nixpkgs.flake = master;
+              nixpkgs.flake = unstable;
             };
           };
 
