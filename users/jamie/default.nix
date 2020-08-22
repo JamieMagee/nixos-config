@@ -1,4 +1,7 @@
 {
+
+  imports = [ ../../profiles/develop ];
+
   users.users.jamie = {
     uid = 1000;
     password = "nixos";
