@@ -9,6 +9,10 @@ in
 
   imports = [ ../../local/locale.nix ];
 
+  boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
+  };
+
   environment = {
 
     systemPackages = with pkgs; [
