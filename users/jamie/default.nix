@@ -1,6 +1,6 @@
 {
 
-  imports = [ ../../profiles/develop ];
+  imports = [ ../../profiles/develop ../../profiles/fish ];
 
   users.users.jamie = {
     uid = 1000;
