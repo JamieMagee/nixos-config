@@ -1,12 +1,11 @@
-{ lib, pkgs, ... }:
-{
-    users.defaultUserShell = pkgs.fish;
+{ lib, pkgs, ... }: {
+  users.defaultUserShell = pkgs.fish;
 
-    programs.fish = {
-      enable = true;
-      
-      promptInit = ''
-        ${pkgs.starship}/bin/starship init fish | source
-      '';
-    };
+  programs.fish = {
+    enable = true;
+
+    promptInit = ''
+      ${pkgs.starship}/bin/starship init fish | source
+    '';
+  };
 }

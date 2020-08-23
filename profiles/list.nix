@@ -1,4 +1,1 @@
-[
-  ./core
-  ./ssh
-]
+[ ./core ./ssh ]

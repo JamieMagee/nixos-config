@@ -12,15 +12,9 @@ let
       sudo -E nix shell -vv ${configs}.$1.${build}.toplevel -c switch-to-configuration $2
     fi
   '';
-in
-pkgs.mkShell {
+in pkgs.mkShell {
   name = "nixflk";
-  nativeBuildInputs = with pkgs; [
-    git
-    git-crypt
-    nixFlakes
-    rebuild
-  ];
+  nativeBuildInputs = with pkgs; [ git git-crypt nixFlakes rebuild ];
 
   shellHook = ''
     mkdir -p secrets
