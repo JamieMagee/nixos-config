@@ -21,10 +21,13 @@ in {
       dosfstools
       fd
       git
+      gnupg
       gotop
       gptfdisk
       iputils
       jq
+      keychain
+      lastpass-cli
       moreutils
       nmap
       ripgrep

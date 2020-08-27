@@ -2,6 +2,10 @@
 
   imports = [ ../../profiles/develop ../../profiles/fish ];
 
+  home-manager.users.jamie = {
+    imports = [ ../profiles/fish ../profiles/gpg ];
+  };
+
   users.users.jamie = {
     uid = 1000;
     password = "nixos";

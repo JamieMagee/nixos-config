@@ -7,5 +7,11 @@
     promptInit = ''
       ${pkgs.starship}/bin/starship init fish | source
     '';
+
+    interactiveShellInit = ''
+      ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
+
+      eval (${pkgs.direnv}/bin/direnv hook fish)
+    '';
   };
 }
