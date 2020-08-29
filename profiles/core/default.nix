@@ -8,7 +8,7 @@ in {
 
   imports = [ ../../local/locale.nix ];
 
-  boot = { kernelPackages = pkgs.linuxPackages_latest; };
+  boot = { kernelPackages = pkgs.linuxPackages_latest_hardened; };
 
   environment = {
 
