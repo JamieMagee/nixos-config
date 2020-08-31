@@ -92,14 +92,10 @@ in {
   };
 
   fonts = {
-    fonts = with pkgs; [ powerline-fonts dejavu_fonts ];
-
+    fonts = with pkgs; [ fira-code corefonts ];
     fontconfig.defaultFonts = {
-
-      monospace = [ "DejaVu Sans Mono for Powerline" ];
-
+      monospace = [ "Fira Code" ];
       sansSerif = [ "DejaVu Sans" ];
-
     };
   };
 

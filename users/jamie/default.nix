@@ -1,6 +1,11 @@
 {
 
-  imports = [ ../../profiles/develop ../../profiles/fish ];
+  imports = [
+    ../../profiles/develop
+    ../../profiles/fish
+    ../../profiles/graphical
+    ../../profiles/applications
+  ];
 
   home-manager.users.jamie = {
     imports = [ ../profiles/fish ../profiles/gpg ];
