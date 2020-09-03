@@ -1,1 +1,1 @@
-{ imports = [ ./kitty ]; }
+{ imports = [ ./chromium ./kitty ]; }
