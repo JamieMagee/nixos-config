@@ -8,7 +8,7 @@
   ];
 
   home-manager.users.jamie = {
-    imports = [ ../profiles/fish ../profiles/gpg ];
+    imports = [ ../profiles ];
   };
 
   users.users.jamie = {
