@@ -23,7 +23,6 @@ in {
         dmenu
         networkmanager_dmenu
         qt5.qtwayland
-        kitty
         volnoti
         wl-clipboard
         (waybar.override { pulseSupport = pulseaudio.enable; })
