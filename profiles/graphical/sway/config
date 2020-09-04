@@ -29,11 +29,6 @@ set $media "mpv|retroarch"
 ### Autostart configuration
 # launch browser and tmux session in $terminal on launch
 
-for_window [app_id="Kitty"] resize set width $φ
-for_window [app_id="org.qutebrowser.qutebrowser"] resize set width $Φ
-for_window [app_id="org.qutebrowser.qutebrowser"] move left
-
-exec $term -e tmux new-session -A -s$$USER \; split-window -v -p 38
 
 ### idle configuration
 
