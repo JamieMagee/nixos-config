@@ -21,6 +21,7 @@ in {
       dosfstools
       fd
       git
+      git-crypt
       gnupg
       gotop
       gptfdisk
@@ -92,7 +93,7 @@ in {
   };
 
   fonts = {
-    fonts = with pkgs; [ fira-code corefonts ];
+    fonts = with pkgs; [ fira-code nerdfonts corefonts ];
     fontconfig.defaultFonts = {
       monospace = [ "Fira Code" ];
       sansSerif = [ "DejaVu Sans" ];
