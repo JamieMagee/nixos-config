@@ -1,7 +1,7 @@
 #!/usr/bin/env nix-shell
 #!nix-shell -i bash -p git zfs
 
-set -eux
+set -euo pipefail
 
 prompt1="Enter your option: "
 MOUNTPOINT="/mnt"
