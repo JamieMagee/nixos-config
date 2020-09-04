@@ -61,11 +61,12 @@ format_partition() {
 
 nixos_install() {
   nixos-generate-config --root ${MOUNTPOINT}
+  nano ${MOUNTPOINT}/etc/nixos/configuration.nix  
   nixos-install
   
   git clone https://github.com/JamieMagee/nixos-config ${MOUNTPOINT}/etc/nixos/
 
-  exit 0
+  reboot
 }
 
 # INSTALLATION
