@@ -3,8 +3,8 @@
   imports = [
     ../../profiles/develop
     ../../profiles/fish
-    ../../profiles/graphical
     ../../profiles/applications
+    ../../profiles/graphical
   ];
 
   home-manager.users.jamie = {

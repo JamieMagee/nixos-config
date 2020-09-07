@@ -3,5 +3,6 @@
     ./fish
     ./gpg
     ./spotify
+    ./graphical
   ];
 }

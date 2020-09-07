@@ -1,1 +1,1 @@
-[ ./core ./ssh ]
+[ ./core ./ssh ./graphical ]
