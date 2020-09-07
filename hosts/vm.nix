@@ -36,5 +36,5 @@
 
   swapDevices = [ ];
 
-  virtualisation.virtualbox.guest.enable = true;
+  services.qemuGuest.enable= true;
 }
