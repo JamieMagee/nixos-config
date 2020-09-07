@@ -3,7 +3,7 @@
 
   inputs = {
     unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixos.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixos.url = "github:NixOS/nixpkgs/nixos-20.03";
     home.url = "github:rycee/home-manager/bqv-flakes";
   };
 
