@@ -1,11 +1,16 @@
 {
   ### root password is empty by default ###
-  imports = [ ../profiles/ssh ../users/jamie ../users/root ];
+  imports = [
+    ../profiles/ssh
+    ../profiles/networking/dns
+    ../profiles/networking/networkmanager
+    ../users/jamie
+    ../users/root
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.networkmanager.enable = true;
   networking.hostId = "cda96004";
 
   boot.initrd.availableKernelModules =
