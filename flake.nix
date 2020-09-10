@@ -4,7 +4,8 @@
   inputs = {
     unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixos.url = "github:NixOS/nixpkgs/nixos-20.03";
-    home.url = "github:rycee/home-manager/bqv-flakes";
+    home.url = "github:rycee/home-manager";
+    home.inputs.nixpkgs.follows = "unstable";
   };
 
   outputs = inputs@{ self, home, nixos, unstable }:

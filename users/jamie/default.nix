@@ -8,6 +8,7 @@
   ];
 
   home-manager.users.jamie = {
+    home.stateVersion = "20.09";
     imports = [ ../profiles ];
   };
 
