@@ -93,7 +93,7 @@ in {
   };
 
   fonts = {
-    fonts = with pkgs; [ fira-code corefonts ];
+    fonts = with pkgs; [ fira-code font-awesome corefonts ];
     fontconfig.defaultFonts = {
       monospace = [ "Fira Code" ];
       sansSerif = [ "DejaVu Sans" ];
