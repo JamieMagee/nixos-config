@@ -17,7 +17,7 @@ in {
       builtins.fetchTarball
       "https://github.com/rycee/home-manager/archive/master.tar.gz"
     }/nixos"
-    /etc/nixos/profiles/core.nix
+    /etc/nixos/profiles/core/default.nix
   ] ++ config;
 
   networking.hostName = hostname;

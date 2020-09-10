@@ -10,6 +10,8 @@ in {
 
   boot = { kernelPackages = pkgs.linuxPackages_latest_hardened; };
 
+  nixpkgs.config.allowUnfree = true;
+
   environment = {
 
     systemPackages = with pkgs; [

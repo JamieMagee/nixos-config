@@ -1,4 +1,4 @@
-{
+{ config, lib, ... }: {
 
   imports = [
     ../../profiles/develop
@@ -10,6 +10,17 @@
   home-manager.users.jamie = {
     home.stateVersion = "20.09";
     imports = [ ../profiles ];
+
+    nixpkgs.config.allowUnfree = true;
+
+    home.file.".config/nixpkgs/config.nix".text = ''
+      {
+        ${
+          lib.optionalString config.nixpkgs.config.allowUnfree
+          "allowUnfree = true;"
+        }
+      }
+    '';
   };
 
   users.users.jamie = {

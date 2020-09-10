@@ -1,1 +1,1 @@
-{ imports = [ ./sway ./waybar ]; }
+{ imports = [ ./sway ./waybar ./wofi ]; }
