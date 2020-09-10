@@ -1,1 +1,1 @@
-{ imports = [ ./fish ./gpg ./spotify ./graphical ]; }
+{ imports = [ ./fish ./gpg ./spotify ./graphical ./applications/teams.nix ]; }
