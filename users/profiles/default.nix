@@ -1,8 +1,1 @@
-{
-  imports = [
-    ./fish
-    ./gpg
-    ./spotify
-    ./graphical
-  ];
-}
+{ imports = [ ./fish ./gpg ./spotify ./graphical ]; }

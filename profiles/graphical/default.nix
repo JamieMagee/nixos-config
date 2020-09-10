@@ -5,12 +5,8 @@
   services.xserver = {
     enable = true;
     displayManager = {
-      sessionPackages = with pkgs; [
-        sway
-      ];
-      lightdm = {
-        enable = true;
-      };
+      sessionPackages = with pkgs; [ sway ];
+      lightdm = { enable = true; };
     };
   };
 }

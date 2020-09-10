@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   programs.waybar = {
     enable = true;
     systemd.enable = true;
@@ -85,7 +84,9 @@
           format-icons = [ "" "" "" "" "" ];
         };
         clock = {
-          tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+          tooltip-format = ''
+            <big>{:%Y %B}</big>
+            <tt><small>{calendar}</small></tt>'';
           format = "{:%F | %H:%M | %Z}";
         };
         tray = {

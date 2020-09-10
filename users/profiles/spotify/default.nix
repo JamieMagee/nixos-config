@@ -1,6 +1,5 @@
-{pkgs, ...}:
-let
-  inherit (builtins) readFile;
+{ pkgs, ... }:
+let inherit (builtins) readFile;
 in {
   services.spotifyd = {
     enable = true;
@@ -11,8 +10,6 @@ in {
       };
     };
   };
-  home.packages = with pkgs; [
-    spotify-tui
-  ];
+  home.packages = with pkgs; [ spotify-tui ];
   xdg.configFile."spotify-tui/client.yml".source = ../../../secrets/spotify-tui;
 }
