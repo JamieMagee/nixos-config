@@ -32,6 +32,25 @@ let
           };
         };
 
+
+        mkHomeManagerConfiguration = { system, name, config, username, homeDirectory }:
+          home.lib.homeManagerConfiguration {
+            inherit system pkgs username homeDirectory;
+            configuration = { ... }: {
+              nixpkgs.config.allowUnfree = true;
+              nixpkgs.overlays = let
+                override = import ../pkgs/override.nix pkgs;
+
+                overlay = pkg: final: prev: { "${pkg.pname}" = pkg; };
+              in map overlay override;
+              imports = [
+                self.lib.home-manager-common
+      
+                (import config)
+              ];
+            };
+          };
+
         overrides = {
           # use latest systemd
           systemd.package = pkgs.systemd;
@@ -49,7 +68,7 @@ let
         flakeModules =
           attrValues (removeAttrs self.nixosModules [ "profiles" ]);
 
-      in flakeModules ++ [ core global local home-manager overrides ];
+      in flakeModules ++ [ core global local home-manager overrides mkHomeManagerConfiguration ];
 
     };
 
