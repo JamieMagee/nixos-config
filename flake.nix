@@ -3,7 +3,7 @@
 
   inputs = {
     unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixos.url = "github:NixOS/nixpkgs/nixos-20.03";
+    nixos.url = "github:NixOS/nixpkgs/nixos-unstable";
     home.url = "github:rycee/home-manager";
     home.inputs.nixpkgs.follows = "unstable";
   };
