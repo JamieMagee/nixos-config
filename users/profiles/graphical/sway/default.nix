@@ -29,6 +29,8 @@
         "${modifier}+Shift+Left" = "move left";
 
         "${modifier}+F5" = "reload";
+
+        "${modifier}+Space" = "fullscreen disable, exec ${pkgs.rofi}/bin/rofi -show run";
       });
     };
     systemdIntegration = true;

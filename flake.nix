@@ -6,9 +6,11 @@
     nixos.url = "github:NixOS/nixpkgs/nixos-unstable";
     home.url = "github:rycee/home-manager";
     home.inputs.nixpkgs.follows = "unstable";
+    wayland.url = "github:colemickens/nixpkgs-wayland";
+    wayland.inputs.nixpkgs.follows = "unstable";
   };
 
-  outputs = inputs@{ self, home, nixos, unstable }:
+  outputs = inputs@{ self, home, nixos, unstable, wayland }:
     let
       inherit (builtins) attrNames attrValues readDir;
       inherit (nixos) lib;
