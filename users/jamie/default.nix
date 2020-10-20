@@ -1,4 +1,4 @@
-{ config, lib, ... }: {
+{ config, lib, pkgs, ... }: {
 
   imports = [
     ../../profiles/develop
@@ -10,6 +10,7 @@
   home-manager.users.jamie = {
     home.stateVersion = "20.09";
     imports = [ ../profiles ];
+    home.packages = [ pkgs.my-extensions.csharp ];
 
     nixpkgs.config.allowUnfree = true;
 

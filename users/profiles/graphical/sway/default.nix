@@ -30,7 +30,8 @@
 
         "${modifier}+F5" = "reload";
 
-        "${modifier}+Space" = "fullscreen disable, exec ${pkgs.rofi}/bin/rofi -show run";
+        "${modifier}+Space" =
+          "fullscreen disable, exec ${pkgs.rofi}/bin/rofi -show run";
       });
     };
     systemdIntegration = true;
