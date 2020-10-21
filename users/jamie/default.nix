@@ -1,4 +1,4 @@
-{ config, lib, ... }: {
+{ config, lib, pkgs, ... }: {
 
   imports = [
     ../../profiles/develop
@@ -10,6 +10,10 @@
   home-manager.users.jamie = {
     home.stateVersion = "20.09";
     imports = [ ../profiles ];
+
+    home.packages = with pkgs; [
+      jetbrains.rider
+    ];
 
     nixpkgs.config.allowUnfree = true;
 
