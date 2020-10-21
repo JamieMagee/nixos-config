@@ -4,6 +4,7 @@
     ../profiles/ssh
     ../profiles/networking/dns
     ../profiles/networking/networkmanager
+    ../profiles/networking/msftvpn
     ../users/jamie
     ../users/root
   ];
