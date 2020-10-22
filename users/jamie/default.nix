@@ -11,8 +11,6 @@
     home.stateVersion = "20.09";
     imports = [ ../profiles ];
 
-    home.packages = with pkgs; [ jetbrains.rider ];
-
     nixpkgs.config.allowUnfree = true;
 
     home.file.".config/nixpkgs/config.nix".text = ''

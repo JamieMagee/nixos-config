@@ -5,6 +5,8 @@
       modifier = "Mod4";
       output = { Virtual-1 = { mode = "1920x1080"; }; };
       keybindings = let
+        workspaces = (builtins.genList (x: [ (toString x) (toString x) ]) 10)
+          ++ [ [ "c" "" ] [ "t" "" ] [ "m" "ﱘ" ] ];
         moveMouse = ''
           exec "sh -c 'eval `${pkgs.xdotool}/bin/xdotool \
                 getactivewindow \
@@ -32,7 +34,13 @@
 
         "${modifier}+Space" =
           "fullscreen disable, exec ${pkgs.rofi}/bin/rofi -show run";
-      });
+      } // builtins.listToAttrs (builtins.map (x: {
+        name = "${modifier}+${builtins.elemAt x 0}";
+        value = "workspace ${builtins.elemAt x 1}";
+      }) workspaces) // builtins.listToAttrs (builtins.map (x: {
+        name = "${modifier}+Shift+${builtins.elemAt x 0}";
+        value = "move container to workspace ${builtins.elemAt x 1}";
+      }) workspaces));
     };
     systemdIntegration = true;
     wrapperFeatures.gtk = true;
