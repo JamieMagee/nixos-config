@@ -1,32 +1,17 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, ... }:
+let inherit (lib) fileContents;
+in {
 
-  imports = [
-    ../../profiles/develop
-    ../../profiles/fish
-    ../../profiles/applications
-    ../../profiles/graphical
-  ];
+  imports = [ ../../profiles/graphical ];
 
   home-manager.users.jamie = {
-    home.stateVersion = "20.09";
-    imports = [ ../profiles ];
-
-    nixpkgs.config.allowUnfree = true;
-
-    home.file.".config/nixpkgs/config.nix".text = ''
-      {
-        ${
-          lib.optionalString config.nixpkgs.config.allowUnfree
-          "allowUnfree = true;"
-        }
-      }
-    '';
+    imports = [ ];
   };
 
   users.users.jamie = {
     uid = 1000;
-    password = "nixos";
-    description = "default";
+    hashedPassword = fileContents ../../secrets/jamie;
+    description = "Jamie Magee";
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     openssh.authorizedKeys.keys = [

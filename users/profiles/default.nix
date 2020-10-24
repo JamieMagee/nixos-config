@@ -6,6 +6,5 @@
     ./graphical
     ./applications/vscode.nix
     ./applications/teams.nix
-    ./networking/msftvpn
   ];
 }

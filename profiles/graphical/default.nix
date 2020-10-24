@@ -5,8 +5,14 @@
   services.xserver = {
     enable = true;
     displayManager = {
-      sessionPackages = with pkgs; [ sway ];
-      lightdm = { enable = true; };
+      gdm = {
+        enable = true;
+      };
+    };
+    desktopManager = {
+      gnome3 = {
+        enable = true;
+      };
     };
   };
 }

@@ -29,10 +29,11 @@ in {
       gptfdisk
       iputils
       jq
+      manix
+      nix-index
       keychain
       lastpass-cli
       moreutils
-      nmap
       ripgrep
       utillinux
       whois
@@ -69,8 +70,12 @@ in {
       nr = "np remove";
       ns = "n search --no-update-lock-file";
       nf = "n flake";
+      nepl = "n repl '<nixpkgs>'";
       srch = "ns nixpkgs";
       nrb = ifSudo "sudo nixos-rebuild";
+      mn = ''
+        manix "" | grep '^# ' | sed 's/^# \(.*\) (.*/\1/;s/ (.*//;s/^# //' | sk --preview="manix '{}'" | xargs manix
+      '';
 
       # sudo
       s = ifSudo "sudo -E ";
@@ -103,45 +108,35 @@ in {
   };
 
   nix = {
-
     autoOptimiseStore = true;
-
     gc.automatic = true;
-
     optimise.automatic = true;
-
     useSandbox = true;
-
     allowedUsers = [ "@wheel" ];
-
     trustedUsers = [ "root" "@wheel" ];
-
     extraOptions = ''
       experimental-features = nix-command flakes ca-references
       min-free = 536870912
+      keep-outputs = true
+      keep-derivations = true
     '';
-
   };
 
   programs.bash = {
     promptInit = ''
       eval "$(${pkgs.starship}/bin/starship init bash)"
     '';
-    shellInit = ''
+    interactiveShellInit = ''
       eval "$(${pkgs.direnv}/bin/direnv hook bash)"
     '';
   };
 
   security = {
-
     hideProcessInformation = true;
-
     protectKernelImage = true;
-
   };
 
   services.earlyoom.enable = true;
-
   users.mutableUsers = false;
 
 }

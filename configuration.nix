@@ -5,30 +5,37 @@
 let
   inherit (builtins) attrNames readDir;
 
+  nixpkgs = toString (import ./nixpkgs-compat.nix);
+
   hostname = lib.fileContents /etc/hostname;
   host = "/etc/nixos/hosts/${hostname}.nix";
-  config = if (builtins.pathExists host) then
-    [ host ]
-  else
-    [ /etc/nixos/hosts/NixOS.nix ];
-in {
+  config =
+    if (builtins.pathExists host) then
+      [ host ]
+    else
+      [ /etc/nixos/hosts/NixOS.nix ];
+in
+{
   imports = (import ./modules/list.nix) ++ [
     "${
       builtins.fetchTarball
-      "https://github.com/rycee/home-manager/archive/master.tar.gz"
-    }/nixos"
-    /etc/nixos/profiles/core/default.nix
+        "https://github.com/nix-community/home-manager/archive/master.tar.gz"
+      }/nixos"
+    /etc/nixos/profiles/core
   ] ++ config;
 
   networking.hostName = hostname;
   nix.nixPath = [
-    "nixpkgs=${<nixpkgs>}"
+    "nixpkgs=${nixpkgs}"
     "nixos-config=/etc/nixos/configuration.nix"
     "nixpkgs-overlays=/etc/nixos/overlays"
   ];
 
-  nixpkgs.overlays = let
-    overlays = map (name: import (./overlays + "/${name}"))
-      (attrNames (readDir ./overlays));
-  in overlays;
+  nixpkgs.overlays =
+    let
+      overlays = map
+        (name: import (./overlays + "/${name}"))
+        (attrNames (readDir ./overlays));
+    in
+    overlays;
 }

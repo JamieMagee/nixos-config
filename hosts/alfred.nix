@@ -2,6 +2,10 @@
   ### root password is empty by default ###
   imports = [
     ../profiles/ssh
+    ../profiles/rclone.nix
+    ../profiles/plex.nix
+    ../profiles/nginx.nix
+    ../profiles/sonarr.nix
     ../profiles/networking/dns
     ../profiles/networking/networkmanager
     ../users/jamie
@@ -18,13 +22,28 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
+  boot.supportedFilesystems = [ "zfs" ];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-label/nixos";
-    fsType = "ext4";
+    device = "zpool/ROOT/nixos";
+    fsType = "zfs";
+  };
+
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-label/EFI";
+    fsType = "vfat";
+  };
+
+  fileSystems."/nix" = {
+    device = "zpool/NIX/nix";
+    fsType = "zfs";
+  };
+  fileSystems."/home" = {
+    device = "zpool/HOME/home";
+    fsType = "zfs";
   };
 
   swapDevices = [ ];
 
-  virtualisation.virtualbox.guest.enable = true;
+  services.qemuGuest.enable = true;
 }

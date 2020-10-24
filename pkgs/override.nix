@@ -4,4 +4,7 @@
 # installed by the user elsewhere in the configuration.
 pkgs:
 with pkgs;
-[ ]
+[
+  nixpkgs-fmt
+  manix
+]

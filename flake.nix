@@ -1,78 +1,89 @@
 {
   description = "A highly structured configuration database.";
 
-  inputs = {
-    unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixos.url = "github:NixOS/nixpkgs/nixos-unstable";
-    home.url = "github:rycee/home-manager";
-    home.inputs.nixpkgs.follows = "unstable";
-    wayland.url = "github:colemickens/nixpkgs-wayland";
-    wayland.inputs.nixpkgs.follows = "unstable";
-  };
+  inputs =
+    {
+      # Once desired, bump master's locked revision:
+      # nix flake update --update-input master
+      master.url = "nixpkgs/master";
+      nixos.url = "nixpkgs/release-20.09";
+      home.url = "github:nix-community/home-manager/release-20.09";
+      flake-utils.url = "github:numtide/flake-utils/flatten-tree-system";
+      devshell.url = "github:numtide/devshell";
+    };
 
-  outputs = inputs@{ self, home, nixos, unstable, wayland }:
+  outputs = inputs@{ self, home, nixos, master, flake-utils, nur, devshell }:
     let
-      inherit (builtins) attrNames attrValues readDir;
+      inherit (builtins) attrNames attrValues elem pathExists;
+      inherit (flake-utils.lib) eachDefaultSystem mkApp flattenTreeSystem;
       inherit (nixos) lib;
-      inherit (lib) removeSuffix recursiveUpdate genAttrs filterAttrs;
-      inherit (utils) pathsToImportedAttrs;
+      inherit (lib) recursiveUpdate filterAttrs mapAttrs;
+      inherit (utils) pathsToImportedAttrs genPkgset overlayPaths modules
+        genPackages pkgImport;
 
       utils = import ./lib/utils.nix { inherit lib; };
 
-      system = "x86_64-linux";
+      externOverlays = [ nur.overlay devshell.overlay ];
+      externModules = [ home.nixosModules.home-manager ];
 
-      pkgImport = pkgs:
-        import pkgs {
-          inherit system;
-          overlays = attrValues self.overlays;
-          config = { allowUnfree = true; };
+      osSystem = "x86_64-linux";
+
+      outputs =
+        let
+          system = osSystem;
+          pkgset =
+            let
+              overlays =
+                (attrValues self.overlays)
+                ++ externOverlays
+                ++ [ self.overlay ];
+            in
+            genPkgset {
+              inherit master nixos overlays system;
+            };
+        in
+        {
+          nixosConfigurations =
+            import ./hosts (recursiveUpdate inputs {
+              inherit lib pkgset utils externModules system;
+            });
+
+          overlay = import ./pkgs;
+
+          overlays = pathsToImportedAttrs overlayPaths;
+
+          nixosModules = modules;
+
+          templates.flk.path = ./.;
+
+          templates.flk.description = "flk template";
+
+          defaultTemplate = self.templates.flk;
         };
+    in
+    recursiveUpdate
+      (eachDefaultSystem
+        (system:
+          let
+            pkgs = pkgImport {
+              inherit system;
+              pkgs = nixos;
+              overlays = [ devshell.overlay ];
+            };
 
-      pkgset = {
-        osPkgs = pkgImport nixos;
-        pkgs = pkgImport unstable;
-      };
+            packages = flattenTreeSystem system
+              (genPackages {
+                inherit self pkgs;
+              });
+          in
+          {
+            inherit packages;
 
-    in with pkgset; {
-      nixosConfigurations = import ./hosts
-        (recursiveUpdate inputs { inherit lib pkgset system utils; });
-
-      devShell."${system}" = import ./shell.nix { inherit pkgs; };
-
-      overlay = import ./pkgs;
-
-      overlays = let
-        overlayDir = ./overlays;
-        fullPath = name: overlayDir + "/${name}";
-        overlayPaths = map fullPath (attrNames (readDir overlayDir));
-      in pathsToImportedAttrs overlayPaths;
-
-      packages."${system}" = let
-        packages = self.overlay osPkgs osPkgs;
-        overlays = lib.filterAttrs (n: v: n != "pkgs") self.overlays;
-        overlayPkgs = genAttrs (attrNames overlays)
-          (name: (overlays."${name}" osPkgs osPkgs)."${name}");
-      in recursiveUpdate packages overlayPkgs;
-
-      nixosModules = let
-        # binary cache
-        cachix = import ./cachix.nix;
-        cachixAttrs = { inherit cachix; };
-
-        # modules
-        moduleList = import ./modules/list.nix;
-        modulesAttrs = pathsToImportedAttrs moduleList;
-
-        # profiles
-        profilesList = import ./profiles/list.nix;
-        profilesAttrs = { profiles = pathsToImportedAttrs profilesList; };
-
-      in recursiveUpdate (recursiveUpdate cachixAttrs modulesAttrs)
-      profilesAttrs;
-
-      templates.flk.path = ./.;
-      templates.flk.description = "flk template";
-
-      defaultTemplate = self.templates.flk;
-    };
+            devShell = import ./shell.nix {
+              inherit pkgs;
+            };
+          }
+        )
+      )
+      outputs;
 }
