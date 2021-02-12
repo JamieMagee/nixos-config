@@ -1,16 +1,10 @@
 { config, lib, pkgs, ... }:
 let inherit (lib) fileContents;
-
-in {
+in
+{
   nix.package = pkgs.nixFlakes;
 
   nix.systemFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
-
-  imports = [ ../../local/locale.nix ];
-
-  boot = { kernelPackages = pkgs.linuxPackages_latest_hardened; };
-
-  nixpkgs.config.allowUnfree = true;
 
   environment = {
 
@@ -23,103 +17,132 @@ in {
       dosfstools
       fd
       git
-      git-crypt
-      gnupg
       gotop
       gptfdisk
       iputils
       jq
       manix
       nix-index
-      keychain
-      lastpass-cli
       moreutils
+      nmap
       ripgrep
+      tealdeer
       utillinux
       whois
     ];
 
     shellInit = ''
       export STARSHIP_CONFIG=${
-        pkgs.writeText "starship.toml" (fileContents ./starship.toml)
+        pkgs.writeText "starship.toml"
+        (fileContents ./starship.toml)
       }
     '';
 
-    shellAliases = let ifSudo = lib.mkIf config.security.sudo.enable;
-    in {
-      # quick cd
-      ".." = "cd ..";
-      "..." = "cd ../..";
-      "...." = "cd ../../..";
-      "....." = "cd ../../../..";
+    shellAliases =
+      let ifSudo = lib.mkIf config.security.sudo.enable;
+      in
+      {
+        # quick cd
+        ".." = "cd ..";
+        "..." = "cd ../..";
+        "...." = "cd ../../..";
+        "....." = "cd ../../../..";
 
-      # git
-      g = "git";
+        # git
+        g = "git";
 
-      # grep
-      grep = "rg";
-      gi = "grep -i";
+        # grep
+        grep = "rg";
+        gi = "grep -i";
 
-      # internet ip
-      myip = "dig +short myip.opendns.com @208.67.222.222 2>&1";
+        # internet ip
+        myip = "dig +short myip.opendns.com @208.67.222.222 2>&1";
 
-      # nix
-      n = "nix";
-      np = "n profile";
-      ni = "np install";
-      nr = "np remove";
-      ns = "n search --no-update-lock-file";
-      nf = "n flake";
-      nepl = "n repl '<nixpkgs>'";
-      srch = "ns nixpkgs";
-      nrb = ifSudo "sudo nixos-rebuild";
-      mn = ''
-        manix "" | grep '^# ' | sed 's/^# \(.*\) (.*/\1/;s/ (.*//;s/^# //' | sk --preview="manix '{}'" | xargs manix
-      '';
+        # nix
+        n = "nix";
+        np = "n profile";
+        ni = "np install";
+        nr = "np remove";
+        ns = "n search --no-update-lock-file";
+        nf = "n flake";
+        nepl = "n repl '<nixpkgs>'";
+        srch = "nsni";
+        nrb = ifSudo "sudo nixos-rebuild";
+        mn = ''
+          manix "" | grep '^# ' | sed 's/^# \(.*\) (.*/\1/;s/ (.*//;s/^# //' | sk --preview="manix '{}'" | xargs manix
+        '';
 
-      # sudo
-      s = ifSudo "sudo -E ";
-      si = ifSudo "sudo -i";
-      se = ifSudo "sudoedit";
+        # fix nixos-option
+        nixos-option = "nixos-option -I nixpkgs=${toString ../../compat}";
 
-      # top
-      top = "gotop";
+        # sudo
+        s = ifSudo "sudo -E ";
+        si = ifSudo "sudo -i";
+        se = ifSudo "sudoedit";
 
-      # systemd
-      ctl = "systemctl";
-      stl = ifSudo "s systemctl";
-      utl = "systemctl --user";
-      ut = "systemctl --user start";
-      un = "systemctl --user stop";
-      up = ifSudo "s systemctl start";
-      dn = ifSudo "s systemctl stop";
-      jtl = "journalctl";
+        # top
+        top = "gotop";
 
-    };
+        # systemd
+        ctl = "systemctl";
+        stl = ifSudo "s systemctl";
+        utl = "systemctl --user";
+        ut = "systemctl --user start";
+        un = "systemctl --user stop";
+        up = ifSudo "s systemctl start";
+        dn = ifSudo "s systemctl stop";
+        jtl = "journalctl";
+
+      } // lib.mapAttrs'
+        (n: v:
+          let
+            prefix = lib.concatStrings (lib.take 2 (lib.stringToCharacters n));
+            ref = from:
+              if from ? ref
+              then "ns ${from.id}/${from.ref}"
+              else "ns ${from.id}";
+          in
+          lib.nameValuePair
+            "ns${prefix}"
+            (ref v.from)
+        )
+        config.nix.registry;
 
   };
 
   fonts = {
-    fonts = with pkgs; [ fira-code font-awesome corefonts ];
+    fonts = with pkgs; [ powerline-fonts dejavu_fonts ];
+
     fontconfig.defaultFonts = {
-      monospace = [ "Fira Code" ];
+
+      monospace = [ "DejaVu Sans Mono for Powerline" ];
+
       sansSerif = [ "DejaVu Sans" ];
+
     };
   };
 
   nix = {
+
     autoOptimiseStore = true;
+
     gc.automatic = true;
+
     optimise.automatic = true;
+
     useSandbox = true;
+
     allowedUsers = [ "@wheel" ];
+
     trustedUsers = [ "root" "@wheel" ];
+
     extraOptions = ''
       experimental-features = nix-command flakes ca-references
       min-free = 536870912
       keep-outputs = true
       keep-derivations = true
     '';
+
   };
 
   programs.bash = {
@@ -131,12 +154,8 @@ in {
     '';
   };
 
-  security = {
-    hideProcessInformation = true;
-    protectKernelImage = true;
-  };
-
   services.earlyoom.enable = true;
+
   users.mutableUsers = false;
 
 }

@@ -3,87 +3,99 @@
 
   inputs =
     {
-      # Once desired, bump master's locked revision:
-      # nix flake update --update-input master
-      master.url = "nixpkgs/master";
+      override.url = "nixpkgs";
       nixos.url = "nixpkgs/release-20.09";
       home.url = "github:nix-community/home-manager/release-20.09";
-      flake-utils.url = "github:numtide/flake-utils/flatten-tree-system";
+      home.inputs.nixpkgs.follows = "nixos";
+      utils.url = "github:numtide/flake-utils/flatten-tree-system";
       devshell.url = "github:numtide/devshell";
+      nixos-hardware.url = "github:nixos/nixos-hardware";
+      ci-agent.url = "github:hercules-ci/hercules-ci-agent";
+      ci-agent.inputs.nixos-20_09.follows = "nixos";
+      ci-agent.inputs.nixos-unstable.follows = "override";
+      ci-agent.inputs.flake-compat.follows = "flake-compat";
+      flake-compat.url = "github:edolstra/flake-compat";
+      flake-compat.flake = false;
     };
 
-  outputs = inputs@{ self, home, nixos, master, flake-utils, nur, devshell }:
+  outputs =
+    inputs@{ self
+    , ci-agent
+    , home
+    , nixos
+    , override
+    , utils
+    , nur
+    , devshell
+    , nixos-hardware
+    , ...
+    }:
     let
-      inherit (builtins) attrNames attrValues elem pathExists;
-      inherit (flake-utils.lib) eachDefaultSystem mkApp flattenTreeSystem;
-      inherit (nixos) lib;
-      inherit (lib) recursiveUpdate filterAttrs mapAttrs;
-      inherit (utils) pathsToImportedAttrs genPkgset overlayPaths modules
-        genPackages pkgImport;
+      inherit (utils.lib) eachDefaultSystem flattenTreeSystem;
+      inherit (nixos.lib) recursiveUpdate mapAttrs;
+      inherit (self.lib) overlays nixosModules genPackages genPkgs
+        genHomeActivationPackages;
 
-      utils = import ./lib/utils.nix { inherit lib; };
+      extern = import ./extern { inherit inputs; };
 
-      externOverlays = [ nur.overlay devshell.overlay ];
-      externModules = [ home.nixosModules.home-manager ];
-
-      osSystem = "x86_64-linux";
+      pkgs' = genPkgs { inherit self; };
 
       outputs =
         let
-          system = osSystem;
-          pkgset =
-            let
-              overlays =
-                (attrValues self.overlays)
-                ++ externOverlays
-                ++ [ self.overlay ];
-            in
-            genPkgset {
-              inherit master nixos overlays system;
-            };
+          system = "x86_64-linux";
+          pkgs = pkgs'.${system};
         in
         {
+          inherit nixosModules overlays;
+
           nixosConfigurations =
             import ./hosts (recursiveUpdate inputs {
-              inherit lib pkgset utils externModules system;
+              inherit pkgs system extern;
+              inherit (pkgs) lib;
             });
 
           overlay = import ./pkgs;
 
-          overlays = pathsToImportedAttrs overlayPaths;
-
-          nixosModules = modules;
+          lib = import ./lib { inherit nixos; };
 
           templates.flk.path = ./.;
 
           templates.flk.description = "flk template";
 
           defaultTemplate = self.templates.flk;
+
+          deploy.nodes = mapAttrs
+            (_: config: {
+              hostname = config.config.networking.hostName;
+
+              profiles.system = {
+                user = "root";
+                path = deploy.lib.x86_64-linux.activate.nixos config;
+              };
+            })
+            self.nixosConfigurations;
+
+          checks = builtins.mapAttrs
+            (system: deployLib: deployLib.deployChecks self.deploy)
+            deploy.lib;
         };
+
+      systemOutputs = eachDefaultSystem (system:
+        let pkgs = pkgs'.${system}; in
+        {
+          packages = flattenTreeSystem system
+            (genPackages {
+              inherit self pkgs;
+            });
+
+          devShell = import ./shell {
+            inherit self system;
+          };
+
+          legacyPackages.hmActivationPackages =
+            genHomeActivationPackages { inherit self; };
+        }
+      );
     in
-    recursiveUpdate
-      (eachDefaultSystem
-        (system:
-          let
-            pkgs = pkgImport {
-              inherit system;
-              pkgs = nixos;
-              overlays = [ devshell.overlay ];
-            };
-
-            packages = flattenTreeSystem system
-              (genPackages {
-                inherit self pkgs;
-              });
-          in
-          {
-            inherit packages;
-
-            devShell = import ./shell.nix {
-              inherit pkgs;
-            };
-          }
-        )
-      )
-      outputs;
+    recursiveUpdate outputs systemOutputs;
 }

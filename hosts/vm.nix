@@ -1,30 +1,34 @@
+{ suites, ... }:
 {
   ### root password is empty by default ###
-  imports = [
-    ../profiles/ssh
-    ../profiles/networking/dns
-    ../profiles/networking/networkmanager
-    ../users/jamie
-    ../users/root
-  ];
+  imports = suites.graphics;
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostId = "cda96004";
+  networking.networkmanager.enable = true;
 
-  boot.initrd.availableKernelModules =
-    [ "xhci_pci" "ahci" "usb_storage" "sd_mod" "sdhci_pci" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ ];
-  boot.extraModulePackages = [ ];
-
-  fileSystems."/" = {
-    device = "/dev/disk/by-label/nixos";
-    fsType = "ext4";
+   fileSystems = {
+     "/" = {
+       device = "/dev/disk/by-uuid/ee42c8cb-cd33-420b-8887-2ccd4ea8bffa";
+      fsType = "ext4";
+    };
+    "/nix/store" = {
+      device = "/nix/store";
+      fsType = "none";
+      options = [ "bind" ];
+    };
+    "/boot" = {
+      device = "/dev/disk/by-uuid/78D3-12CB";
+      fsType = "vfat";
+    };
   };
 
-  swapDevices = [ ];
+  swapDevices = [
+    { 
+      device = "/dev/disk/by-uuid/b0acb83d-9c3f-48b1-8186-8ccf3261d709";
+    }
+  ];
 
   virtualisation.virtualbox.guest.enable = true;
 }

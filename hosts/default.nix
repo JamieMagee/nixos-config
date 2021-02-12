@@ -1,90 +1,110 @@
-{ home
+{ extern
+, home
 , lib
 , nixos
-, master
-, pkgset
+, nixos-hardware
+, override
+, pkgs
 , self
 , system
-, utils
-, externModules
 , ...
 }:
 let
-  inherit (utils) recImport;
+  inherit (lib.flk) recImport nixosSystemExtended defaultImports;
   inherit (builtins) attrValues removeAttrs;
-  inherit (pkgset) osPkgs unstablePkgs;
 
-  unstableModules = [ ];
-  addToDisabledModules = [ ];
+  suites = import ../suites { inherit lib; };
 
   config = hostName:
-    lib.nixosSystem {
+    nixosSystemExtended {
       inherit system;
 
-      specialArgs =
-        {
-          unstableModulesPath = "${master}/nixos/modules";
-        };
+      specialArgs = extern.specialArgs // { inherit suites; };
 
       modules =
         let
-          core = self.nixosModules.profiles.core;
+          core = import ../profiles/core;
 
-          modOverrides = { config, unstableModulesPath, ... }: {
-            disabledModules = unstableModules ++ addToDisabledModules;
-            imports = map
-              (path: "${unstableModulesPath}/${path}")
-              unstableModules;
-          };
+          modOverrides = { config, overrideModulesPath, ... }:
+            let
+              overrides = import ../overrides;
+              inherit (overrides) modules disabledModules;
+            in
+            {
+              disabledModules = modules ++ disabledModules;
+              imports = map
+                (path: "${overrideModulesPath}/${path}")
+                modules;
+            };
 
-          global = {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
+          global =
+            let
+              inherit (lock) nodes;
 
-            networking.hostName = hostName;
-            nix.nixPath = let path = toString ../.; in
-              [
-                "nixos-unstable=${master}"
+              lock = builtins.fromJSON (builtins.readFile ../flake.lock);
+            in
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+
+              hardware.enableRedistributableFirmware = lib.mkDefault true;
+
+              networking.hostName = hostName;
+
+              nix.nixPath = [
                 "nixpkgs=${nixos}"
-                "nixos-config=${path}/configuration.nix"
-                "nixpkgs-overlays=${path}/overlays"
+                "nixos-config=${self}/compat/nixos"
                 "home-manager=${home}"
               ];
 
-            nixpkgs.pkgs = osPkgs;
+              nixpkgs = { inherit pkgs; };
 
-            nix.registry = {
-              master.flake = master;
-              nixflk.flake = self;
-              nixpkgs.flake = nixos;
-              home-manager.flake = home;
+              nix.registry = {
+                flk.flake = self;
+
+                nixos = {
+                  exact = true;
+                  from = nodes.nixos.original;
+                  to = {
+                    inherit (nixos) lastModified narHash rev;
+
+                    path = override.outPath;
+                    type = "path";
+                  };
+                };
+
+                override = {
+                  exact = true;
+                  from = nodes.override.original;
+                  to = {
+                    inherit (override) lastModified narHash rev;
+
+                    path = override.outPath;
+                    type = "path";
+                  };
+                };
+              };
+
+              system.configurationRevision = lib.mkIf (self ? rev) self.rev;
             };
 
-            system.configurationRevision = lib.mkIf (self ? rev) self.rev;
+          local = {
+            require = [
+              (import "${toString ./.}/${hostName}.nix")
+            ];
           };
-
-          overrides = {
-            nixpkgs.overlays =
-              let
-                override = import ../pkgs/override.nix unstablePkgs;
-              in
-              [ override ];
-          };
-
-          local = import "${toString ./.}/${hostName}.nix";
 
           # Everything in `./modules/list.nix`.
           flakeModules =
-            attrValues (removeAttrs self.nixosModules [ "profiles" ]);
+            attrValues self.nixosModules;
 
         in
         flakeModules ++ [
           core
           global
           local
-          overrides
           modOverrides
-        ] ++ externModules;
+        ] ++ extern.modules;
 
     };
 
