@@ -40,7 +40,7 @@
     }:
     let
       inherit (utils.lib) eachDefaultSystem flattenTreeSystem;
-      inherit (nixos.lib) recursiveUpdate mapAttrs;
+      inherit (nixos.lib) recursiveUpdate;
       inherit (self.lib) overlays nixosModules genPackages genPkgs
         genHomeActivationPackages mkNodes;
 
@@ -72,16 +72,7 @@
 
           defaultTemplate = self.templates.flk;
 
-          deploy.nodes = mapAttrs
-            (_: config: {
-              hostname = config.config.networking.hostName;
-
-              profiles.system = {
-                user = "root";
-                path = deploy.lib.x86_64-linux.activate.nixos config;
-              };
-            })
-            self.nixosConfigurations;
+          deploy.nodes = mkNodes deploy self.nixosConfigurations;
 
           checks = builtins.mapAttrs
             (system: deployLib: deployLib.deployChecks self.deploy)
