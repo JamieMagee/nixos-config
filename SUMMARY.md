@@ -23,6 +23,4 @@
   - [iso](./doc/flk/iso.md)
   - [install](./doc/flk/install.md)
   - [home](./doc/flk/home.md)
-- [Integrations](doc/integrations/index.md)
-  - [deploy-rs](./doc/integrations/deploy.md)
 - [Contributing](./doc/README.md)
