@@ -10,13 +10,10 @@ in
 
   boot = {
     tmpOnTmpfs = true;
-
     kernel.sysctl."kernel.sysrq" = 1;
-
   };
 
   environment = {
-
     etc = {
       "xdg/gtk-3.0/settings.ini" = {
         text = ''
@@ -64,22 +61,18 @@ in
       papirus-icon-theme
       pulsemixer
       qt5.qtgraphicaleffects
-      sddm-chili
       stdmanpages
       xsel
       zathura
     ];
   };
 
-  services.xbanish.enable = true;
-
   services.gnome3.gnome-keyring.enable = true;
 
   services.xserver = {
     enable = true;
-
+    layout = "gb";
     libinput.enable = true;
-
     displayManager.gdm = {
       enable = true;
     };

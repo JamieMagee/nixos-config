@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  imports = [ ../python ../haskell ];
+  imports = [ ../python ];
 
   environment.systemPackages = with pkgs; [
     clang-tools
