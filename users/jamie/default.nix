@@ -1,7 +1,12 @@
 { ... }:
 {
   home-manager.users.jamie = {
-    imports = [ ../profiles/git ../profiles/direnv ];
+    imports = [ 
+      ../profiles/git
+      ../profiles/direnv
+      ../profiles/dotnet
+      ../profiles/fish
+    ];
   };
 
   users.users.jamie = {
