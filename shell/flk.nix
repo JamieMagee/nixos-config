@@ -12,6 +12,7 @@ stdenv.mkDerivation {
 
   installPhase = ''
     mkdir -p $out/bin
+    patchShebangs ${src}
     install $src $out/bin/${name}
   '';
 

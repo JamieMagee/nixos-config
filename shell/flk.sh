@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 [[ -d "$DEVSHELL_ROOT" ]] ||
   {
     echo "This script must be run from nixflk's devshell" >&2

@@ -38,7 +38,7 @@ in
           # Speed up commands involving untracked files such as `git status`.
           # https://git-scm.com/docs/git-update-index#_untracked_cache
           untrackedCache = true;
-          pager = "${pkgs.gitAndTools.diff-so-fancy} | ${pkgs.less} --tabs=4 RFX";
+          pager = "${pkgs.gitAndTools.diff-so-fancy}/bin/diff-so-fancy | ${pkgs.less}/bin/less --tabs=4 -RFX";
       };
       pull.rebase = false;
     };
