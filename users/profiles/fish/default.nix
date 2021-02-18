@@ -2,6 +2,7 @@
 {
   home.packages = with pkgs; [
     lastpass-cli
+    bitwarden-cli
   ];
 
   programs.fish = {
