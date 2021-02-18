@@ -1,5 +1,9 @@
 { pkgs, ... }:
 {
+  home.packages = with pkgs; [
+    lastpass-cli
+  ];
+
   programs.fish = {
     enable = true;
     functions = {
