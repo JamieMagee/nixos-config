@@ -6,6 +6,7 @@
       ../profiles/direnv
       ../profiles/dotnet
       ../profiles/fish
+      ../profiles/keychain
     ];
   };
 
