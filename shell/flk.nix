@@ -12,7 +12,6 @@ stdenv.mkDerivation {
 
   installPhase = ''
     mkdir -p $out/bin
-    patchShebangs ./flk.sh
     install $src $out/bin/${name}
   '';
 

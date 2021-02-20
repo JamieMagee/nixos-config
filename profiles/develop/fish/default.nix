@@ -25,7 +25,5 @@
 
   programs.fish = {
     enable = true;
-
-    
   };
 }
