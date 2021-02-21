@@ -15,6 +15,6 @@
     password = "nixos";
     description = "default";
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "docker" ];
   };
 }
