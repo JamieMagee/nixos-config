@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  imports = [ ./fish ./kakoune ./tmux ./dotnet ];
+  imports = [ ./fish ./kakoune ./tmux ./dotnet ./node ];
 
   environment.shellAliases = { v = "$EDITOR"; pass = "gopass"; };
 
