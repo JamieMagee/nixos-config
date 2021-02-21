@@ -16,7 +16,10 @@ in
       python = pkgs.python3.withPackages packages;
 
     in
-    [ python ];
+    [ 
+      python
+      pkgs.jetbrains.pycharm-professional
+    ];
   environment.sessionVariables = {
     PYTHONSTARTUP =
       let
