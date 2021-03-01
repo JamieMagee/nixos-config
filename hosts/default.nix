@@ -41,16 +41,14 @@ let
             "home-manager=${home}"
           ];
 
-          nixpkgs = { inherit pkgs; };
-
-          nix.registry = {
-            flk.flake = self;
-
-            nixos = {
-              exact = true;
-              from = nodes.nixos.original;
-              to = {
-                inherit (nixos) lastModified narHash rev;
+                nixos = {
+                  exact = true;
+                  from = {
+                    id = "nixos";
+                    type = "indirect";
+                  };
+                  to = {
+                    inherit (nixos) lastModified narHash rev;
 
                 path = override.outPath;
                 type = "path";
