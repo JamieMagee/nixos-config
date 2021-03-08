@@ -1,7 +1,6 @@
 { stdenv, meson, ninja, fetchFromGitHub, ... }:
 let version = "r50";
-in
-stdenv.mkDerivation {
+in stdenv.mkDerivation {
   pname = "libinih";
   inherit version;
 

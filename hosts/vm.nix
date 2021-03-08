@@ -1,5 +1,4 @@
-{ suites, ... }:
-{
+{ suites, ... }: {
   ### root password is empty by default ###
   imports = suites.graphics;
 
@@ -8,9 +7,9 @@
 
   networking.networkmanager.enable = true;
 
-   fileSystems = {
-     "/" = {
-       device = "/dev/disk/by-uuid/ee42c8cb-cd33-420b-8887-2ccd4ea8bffa";
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-uuid/ee42c8cb-cd33-420b-8887-2ccd4ea8bffa";
       fsType = "ext4";
     };
     "/nix/store" = {
@@ -24,11 +23,8 @@
     };
   };
 
-  swapDevices = [
-    { 
-      device = "/dev/disk/by-uuid/b0acb83d-9c3f-48b1-8186-8ccf3261d709";
-    }
-  ];
+  swapDevices =
+    [{ device = "/dev/disk/by-uuid/b0acb83d-9c3f-48b1-8186-8ccf3261d709"; }];
 
   virtualisation.virtualbox.guest.enable = true;
 }

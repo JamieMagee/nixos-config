@@ -1,6 +1,5 @@
 let version = "1.9.0";
-in
-final: prev: {
+in final: prev: {
   retroarchBare = prev.retroarchBare.overrideAttrs (o: {
     inherit version;
 
@@ -12,12 +11,10 @@ final: prev: {
     };
 
     # fix darwin builds
-    nativeBuildInputs =
-      if ! prev.stdenv.isLinux then
-        prev.lib.filter
-          (drv: ! prev.lib.hasPrefix "wayland" drv.name)
-          o.nativeBuildInputs
-      else
-        o.nativeBuildInputs;
+    nativeBuildInputs = if !prev.stdenv.isLinux then
+      prev.lib.filter (drv: !prev.lib.hasPrefix "wayland" drv.name)
+      o.nativeBuildInputs
+    else
+      o.nativeBuildInputs;
   });
 }

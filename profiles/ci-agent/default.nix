@@ -1,3 +1,1 @@
-{ ... }: {
-  services.hercules-ci-agent.enable = true;
-}
+{ ... }: { services.hercules-ci-agent.enable = true; }

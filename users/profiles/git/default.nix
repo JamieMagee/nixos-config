@@ -1,8 +1,6 @@
 { pkgs, ... }:
-let
-  inherit (builtins) readFile;
-in
-{
+let inherit (builtins) readFile;
+in {
   programs.git = {
     enable = true;
 
@@ -19,8 +17,7 @@ in
         commentchar = ";";
         safecrlf = false;
         autocrlf = "input";
-        excludesfile = "${pkgs.writeText ".gitignore"
-          ''
+        excludesfile = "${pkgs.writeText ".gitignore" ''
           *~
 
           # temporary files which can be created if a process still has a handle open of a deleted file
@@ -34,11 +31,12 @@ in
 
           # .nfs files are created when an open file is removed but is still being accessed
           .nfs*
-          ''}";
-          # Speed up commands involving untracked files such as `git status`.
-          # https://git-scm.com/docs/git-update-index#_untracked_cache
-          untrackedCache = true;
-          pager = "${pkgs.gitAndTools.diff-so-fancy}/bin/diff-so-fancy | ${pkgs.less}/bin/less --tabs=4 -RFX";
+        ''}";
+        # Speed up commands involving untracked files such as `git status`.
+        # https://git-scm.com/docs/git-update-index#_untracked_cache
+        untrackedCache = true;
+        pager =
+          "${pkgs.gitAndTools.diff-so-fancy}/bin/diff-so-fancy | ${pkgs.less}/bin/less --tabs=4 -RFX";
       };
       pull.rebase = false;
     };
@@ -60,7 +58,8 @@ in
       rs = "restore --staged";
       st = "status -sb";
 
-      whoami = "!sh -c 'echo \"$(git config --get user.name) <$(git config --get user.email)>\"'";
+      whoami =
+        "!sh -c 'echo \"$(git config --get user.name) <$(git config --get user.email)>\"'";
 
       # reset
       soft = "reset --soft";

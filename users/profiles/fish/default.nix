@@ -1,8 +1,5 @@
-{ pkgs, ... }:
-{
-  home.packages = with pkgs; [
-    bitwarden-cli
-  ];
+{ pkgs, ... }: {
+  home.packages = with pkgs; [ bitwarden-cli ];
 
   programs.fish = {
     enable = true;

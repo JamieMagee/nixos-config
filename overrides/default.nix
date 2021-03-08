@@ -9,21 +9,13 @@
   # packages pulled from override
   packages = pkgs: final: prev: {
     inherit (pkgs)
-      dhall
-      discord
-      element-desktop
-      manix
-      nixpkgs-fmt
-      nixFlakes
-      qutebrowser
-      signal-desktop
-      starship;
+      dhall discord element-desktop manix nixpkgs-fmt nixFlakes qutebrowser
+      signal-desktop starship;
 
     haskellPackages = prev.haskellPackages.override {
       overrides = hfinal: hprev:
         let version = prev.lib.replaceChars [ "." ] [ "" ] prev.ghc.version;
-        in
-        {
+        in {
           # same for haskell packages, matching ghc versions
           inherit (pkgs.haskell.packages."ghc${version}")
             haskell-language-server;

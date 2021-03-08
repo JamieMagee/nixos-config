@@ -1,8 +1,6 @@
 { stdenv }:
-let
-  name = "flk";
-in
-stdenv.mkDerivation {
+let name = "flk";
+in stdenv.mkDerivation {
   inherit name;
 
   src = ./flk.sh;

@@ -1,7 +1,6 @@
-{ ... }:
-{
+{ ... }: {
   home-manager.users.jamie = {
-    imports = [ 
+    imports = [
       ../profiles/git
       ../profiles/direnv
       ../profiles/dotnet

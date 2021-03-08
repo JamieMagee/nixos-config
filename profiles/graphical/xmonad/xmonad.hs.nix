@@ -10,10 +10,9 @@ let
   stoggle = writeScript "xmonad-stoggle" (readFile ./scripts/stoggle);
 
   volnoti = import ../misc/volnoti.nix { inherit pkgs; };
-in
-''
+in ''
   ${readFile ./_xmonad.hs}
   ${import ./_xmonad.nix {
     inherit screenshots autostart stoggle pkgs volnoti;
-    }}
+  }}
 ''

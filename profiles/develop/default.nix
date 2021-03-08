@@ -1,7 +1,10 @@
 { pkgs, ... }: {
   imports = [ ./fish ./kakoune ./tmux ./dotnet ./node ];
 
-  environment.shellAliases = { v = "$EDITOR"; pass = "gopass"; };
+  environment.shellAliases = {
+    v = "$EDITOR";
+    pass = "gopass";
+  };
 
   environment.sessionVariables = {
     PAGER = "less";

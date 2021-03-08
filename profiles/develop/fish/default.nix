@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   users.defaultUserShell = pkgs.fish;
 
   environment = {
@@ -17,13 +16,8 @@
 
       ps = "${pkgs.procs}/bin/procs";
     };
-    systemPackages = with pkgs; [
-      bat
-      exa
-    ];
+    systemPackages = with pkgs; [ bat exa ];
   };
 
-  programs.fish = {
-    enable = true;
-  };
+  programs.fish = { enable = true; };
 }

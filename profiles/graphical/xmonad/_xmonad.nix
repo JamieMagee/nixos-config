@@ -1,7 +1,6 @@
 { autostart, screenshots, pkgs, stoggle, volnoti }:
 let inherit (pkgs) alsaUtils;
-in
-''
+in ''
   -- Function for fullscreen toggle
   fullToggle :: X ()
   fullToggle = do

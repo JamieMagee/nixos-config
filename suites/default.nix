@@ -6,14 +6,10 @@ let
   profiles = importDefaults (toString ../profiles);
   users = importDefaults (toString ../users);
 
-  allProfiles =
-    let
-      sansCore = lib.filterAttrs (n: _: n != "core") profiles;
-    in
-    lib.collect isFunction sansCore;
+  allProfiles = let sansCore = lib.filterAttrs (n: _: n != "core") profiles;
+  in lib.collect isFunction sansCore;
 
   allUsers = lib.collect isFunction users;
-
 
   suites = with profiles; rec {
     work = [ develop ssh virt users.jamie users.root ];
@@ -22,15 +18,11 @@ let
 
     mobile = graphics ++ [ laptop ];
 
-    play = graphics ++ [
-      graphical.games
-      network.torrent
-      misc.disable-mitigations
-    ];
+    play = graphics
+      ++ [ graphical.games network.torrent misc.disable-mitigations ];
 
     goPlay = play ++ [ laptop ];
   };
-in
-mapAttrs (_: v: lib.flk.profileMap v) suites // {
+in mapAttrs (_: v: lib.flk.profileMap v) suites // {
   inherit allProfiles allUsers;
 }

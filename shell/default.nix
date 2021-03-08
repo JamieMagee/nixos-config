@@ -1,6 +1,4 @@
-{ self ? (import ../compat).defaultNix
-, system ? builtins.currentSystem
-}:
+{ self ? (import ../compat).defaultNix, system ? builtins.currentSystem }:
 let
   pkgs = (self.lib.genPkgs { inherit self; }).${system};
 
@@ -13,9 +11,7 @@ let
 
   flk = pkgs.callPackage ./flk.nix { };
 
-in
-pkgs.devshell.mkShell
-{
+in pkgs.devshell.mkShell {
   imports = [ (pkgs.devshell.importTOML ./devshell.toml) ];
 
   packages = with installPkgs; [
@@ -24,19 +20,14 @@ pkgs.devshell.mkShell
     nixos-enter
   ];
 
-  git.hooks = {
-    pre-commit.text = lib.fileContents ./pre-commit.sh;
-  };
+  git.hooks = { pre-commit.text = lib.fileContents ./pre-commit.sh; };
 
-  commands = with pkgs; [
-    {
-      package = flk;
-    }
-  ]
-  ++ lib.optional (system != "i686-linux") { package = cachix; }
-  ++ lib.optional (system == "x86_64-linux") {
-    name = "deploy";
-    package = deploy-rs;
-    help = "A simple multi-profile Nix-flake deploy tool.";
-  };
+  commands = with pkgs;
+    [{ package = flk; }]
+    ++ lib.optional (system != "i686-linux") { package = cachix; }
+    ++ lib.optional (system == "x86_64-linux") {
+      name = "deploy";
+      package = deploy-rs;
+      help = "A simple multi-profile Nix-flake deploy tool.";
+    };
 }

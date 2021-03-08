@@ -2,8 +2,7 @@
 
 with lib;
 let cfg = config.services.wii-u-gc-adapter;
-in
-{
+in {
   options = {
     services.wii-u-gc-adapter = {
       enable = mkOption {

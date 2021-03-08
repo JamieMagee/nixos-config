@@ -1,3 +1,1 @@
-{ ... }: {
-  imports = [ ./networkmanager ./adblocking ];
-}
+{ ... }: { imports = [ ./networkmanager ./adblocking ]; }

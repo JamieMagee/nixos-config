@@ -3,8 +3,7 @@ let
   inherit (builtins) readFile;
 
   inherit (config.hardware) pulseaudio;
-in
-{
+in {
   imports = [ ../qutebrowser ];
 
   sound.enable = true;
@@ -39,8 +38,7 @@ in
   environment.etc = {
     "sway/config".text =
       let volnoti = import ../misc/volnoti.nix { inherit pkgs; };
-      in
-      ''
+      in ''
         set $volume ${volnoti}
         set $mixer "${pkgs.alsaUtils}/bin/amixer -q set Master"
 

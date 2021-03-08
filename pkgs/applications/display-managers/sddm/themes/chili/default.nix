@@ -1,7 +1,6 @@
 { stdenv, fetchFromGitHub, ... }:
 let version = "0.1.5";
-in
-stdenv.mkDerivation {
+in stdenv.mkDerivation {
   pname = "sddm-chili";
   inherit version;
 

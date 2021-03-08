@@ -4,8 +4,7 @@ let
   cfg = config.services.qbittorrent;
   configDir = "${cfg.dataDir}/.config";
   openFilesLimit = 4096;
-in
-{
+in {
   options.services.qbittorrent = {
     enable = mkOption {
       type = types.bool;

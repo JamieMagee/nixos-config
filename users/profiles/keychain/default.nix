@@ -1,5 +1,1 @@
-{
-  programs.keychain = {
-    enable = true;
-  };
-}
+{ programs.keychain = { enable = true; }; }

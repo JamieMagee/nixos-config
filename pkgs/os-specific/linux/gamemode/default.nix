@@ -1,16 +1,6 @@
 let version = "1.5.1";
-in
-{ stdenv
-, meson
-, ninja
-, polkit
-, pkgconfig
-, systemd
-, dbus
-, libinih
-, fetchFromGitHub
-, ...
-}:
+in { stdenv, meson, ninja, polkit, pkgconfig, systemd, dbus, libinih
+, fetchFromGitHub, ... }:
 
 stdenv.mkDerivation {
   pname = "gamemode";
